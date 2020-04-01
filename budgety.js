@@ -69,27 +69,24 @@ function income(){
 function clicki(){
     x=Number(document.getElementById("result").innerHTML);
     var val=document.getElementById("val").value;
-    var description=document.getElementById("desc").value;
-    if(val!=Number || description===""){
-        alert("please fill the values");
-    }
-    else{
     var choice= document.getElementById("option");
     var e=choice.options[choice.selectedIndex].text;
     if(e=="-"){
     var y=x-Number(val);
     expenses();
     exp_list();
+    document.getElementById("result").innerHTML=y;
 }
     else if(e=="+"){
         var y=x+Number(val);
         income();
         inc_list();
+        document.getElementById("result").innerHTML=y;
     }
     else{
     alert("select valid option");
-}
+    }
 
-    document.getElementById("result").innerHTML=y;}
+    document.getElementById("result").innerHTML=y;
 }
 
