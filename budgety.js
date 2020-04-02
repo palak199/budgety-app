@@ -6,6 +6,8 @@ var inc=document.getElementById("income").innerHTML;
 var inc_temp=Number(inc);
 var d=new Date();
 document.getElementsByClassName("budget__title--month")[0].innerHTML=d;
+
+var jsonobj={};
 function inc_list(){  
     var val=document.getElementById("val").value;
     var description=document.getElementById("desc").value; 
@@ -27,7 +29,6 @@ function inc_list(){
     document.getElementById("income_list").appendChild(add_li);
 
 }
-
 function exp_list(){  
     var val=document.getElementById("val").value; 
     var description=document.getElementById("desc").value;
@@ -47,8 +48,10 @@ function exp_list(){
     add_li.appendChild(text_div);
     add_li.appendChild(right_div);
     document.getElementById("expenses_list").appendChild(add_li);
-
+    console.log(document.getElementById("expenses_list").children[0].children[0].innerHTML);
+    
 }
+
 
 function expenses(){
     var val=document.getElementById("val").value;
@@ -64,7 +67,21 @@ function income(){
 
 }
 
+function save(){
+    var exp_child=document.getElementById("expenses_list").children;
+    var inc_child=document.getElementById("expenses_list").children;
 
+    for (var i=0;i< exp_child.length;i++){
+    var getid=document.getElementById("expenses_list").children[i].children[0].innerHTML;
+    var getval=document.getElementById("expenses_list").children[i].children[1].innerText;
+    jsonobj[getid]=getval;
+}
+for (var i=0;i<inc_child.length;i++){
+    var getid=document.getElementById("income_list").children[i].children[0].innerHTML;
+    var getval=document.getElementById("income_list").children[i].children[1].innerText;
+    jsonobj[getid]=getval;
+}
+}
 
 function clicki(){
     x=Number(document.getElementById("result").innerHTML);
