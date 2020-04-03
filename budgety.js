@@ -48,7 +48,6 @@ function exp_list(){
     add_li.appendChild(text_div);
     add_li.appendChild(right_div);
     document.getElementById("expenses_list").appendChild(add_li);
-    console.log(document.getElementById("expenses_list").children[0].children[0].innerHTML);
     
 }
 
@@ -69,7 +68,7 @@ function income(){
 
 function save(){
     var exp_child=document.getElementById("expenses_list").children;
-    var inc_child=document.getElementById("expenses_list").children;
+    var inc_child=document.getElementById("income_list").children;
 
     for (var i=0;i< exp_child.length;i++){
     var getid=document.getElementById("expenses_list").children[i].children[0].innerHTML;
@@ -80,8 +79,64 @@ for (var i=0;i<inc_child.length;i++){
     var getid=document.getElementById("income_list").children[i].children[0].innerHTML;
     var getval=document.getElementById("income_list").children[i].children[1].innerText;
     jsonobj[getid]=getval;
+    
 }
+    exportCSVFile(jsonobj, "list"); 
+ 
 }
+
+function convertToCSV(objArray) {
+    var array=objArray;
+    var str = "description,value";
+    str+='\r\n';
+
+    for (var i = 1; i < array.length-1; i++) {
+        var line = '';
+        if(array[i]==",") {
+            str+='\r\n';
+
+        }
+        else if(array[i]==":"){
+            str+=',';
+        }
+        else if(array[i]=='"'){
+            str+=' ';
+        }
+            else{
+                str+=array[i];
+            }
+                console.log(array[i]);
+
+        }
+
+    return str;
+}
+
+function exportCSVFile(items, fileTitle) {
+    
+    var csv = JSON.stringify(items);
+    var par = convertToCSV(csv);
+    var exportedFilenmae = fileTitle + '.csv' || 'export.csv';
+    console.log(par);
+    var blob = new Blob([par], { type: 'text/csv;charset=utf-8;' });
+    if (navigator.msSaveBlob) { 
+        navigator.msSaveBlob(blob, exportedFilenmae);
+    } else {
+        var link = document.createElement("a");
+        link.setAttribute("class","add__btn");
+        if (link.download !== undefined) { 
+            var url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", exportedFilenmae);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    }
+}
+
+
 
 function clicki(){
     x=Number(document.getElementById("result").innerHTML);
